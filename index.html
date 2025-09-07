@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luxe Hair Studio - Premium Hair Salon</title>
+
+  <!-- React (UMD) -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-inter { font-family: 'Inter', sans-serif; }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+    .fade-in { opacity: 0; animation: fadeIn 0.6s ease-in forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .slide-up { transform: translateY(50px); opacity: 0; animation: slideUp 0.8s ease-out forwards; }
+    @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
+
+    .shimmer {
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const HairSalonWebsite = () => {
+      const [isVisible, setIsVisible] = useState(false);
+      const [activeService, setActiveService] = useState(null);
+      const [mobileOpen, setMobileOpen] = useState(false);
+
+      useEffect(() => { setIsVisible(true); }, []);
+
+      const services = [
+        { id: 1, title: "Signature Cut & Style", price: "$85", duration: "60 min", description: "Personalized haircut with professional styling", image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" },
+        { id: 2, title: "Color Transformation", price: "$150", duration: "120 min", description: "Full color service with premium products", image: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" },
+        { id: 3, title: "Luxury Hair Treatment", price: "$120", duration: "90 min", description: "Deep conditioning and restorative treatment", image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" },
+        { id: 4, title: "Bridal Package", price: "$250", duration: "180 min", description: "Complete bridal hair and styling service", image: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" }
+      ];
+
+      const testimonials = [
+        { name: "Sarah Johnson", rating: 5, text: "Absolutely amazing experience! My hair has never looked better.", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+        { name: "Emma Davis", rating: 5, text: "The staff is incredibly talented and the atmosphere is so relaxing.", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+        { name: "Maria Rodriguez", rating: 5, text: "Best color transformation I've ever had. Highly recommend!", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" }
+      ];
+
+      return (
+        <div className="min-h-screen font-inter">
+          {/* Navigation */}
+          <nav className="fixed top-0 w-full z-50 glass-effect">
+  <div className="w-full px-12 py-3 relative">
+    <div className="flex items-center justify-between">
+      {/* Logo */}
+      <div className="font-playfair text-xl sm:text-xl font-bold text-white">
+        Luxe Hair Studio
+      </div>
+
+      {/* Desktop Nav */}
+      <div className="hidden md:flex items-center space-x-8 text-white">
+        <a href="#home" className="hover:text-purple-200 transition-colors">Home</a>
+        <a href="#services" className="hover:text-purple-200 transition-colors">Services</a>
+        <a href="#gallery" className="hover:text-purple-200 transition-colors">Gallery</a>
+        <a href="#contact" className="hover:text-purple-200 transition-colors">Contact</a>
+      </div>
+
+      {/* Desktop CTA */}
+      <button className="hidden md:inline-block bg-white text-purple-600 px-5 py-2 rounded-full font-medium hover:bg-purple-50 transition-colors ">
+        Book Now
+      </button>
+
+      {/* Mobile Toggle */}
+      <button
+        className="md:hidden p-2 rounded-lg text-white hover:bg-white/10"
+        onClick={() => setMobileOpen(v => !v)}
+        aria-label="Toggle Menu"
+      >
+        {mobileOpen ? (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        )}
+      </button>
+    </div>
+
+    {/* Mobile Menu Overlay */}
+    {mobileOpen && (
+      <div className="md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-sm text-white z-50 flex flex-col px-10 py-6 space-y-4">
+        <a href="#home" onClick={() => setMobileOpen(false)} className="block py-2 text-lg hover:text-purple-200">Home</a>
+        <a href="#services" onClick={() => setMobileOpen(false)} className="block py-2 text-lg hover:text-purple-200">Services</a>
+        <a href="#gallery" onClick={() => setMobileOpen(false)} className="block py-2 text-lg hover:text-purple-200">Gallery</a>
+        <a href="#contact" onClick={() => setMobileOpen(false)} className="block py-2 text-lg hover:text-purple-200">Contact</a>
+        <button className="w-full bg-white text-purple-600 px-10 py-2 rounded-full font-medium hover:bg-purple-50 transition-colors ">
+          Book Now
+        </button>
+      </div>
+    )}
+  </div>
+</nav>
+
+
+          {/* Hero Section */}
+          <section id="home" className="gradient-bg min-h-[90vh] sm:min-h-screen flex items-center relative overflow-hidden pt-24">
+            <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+            <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+                <div className={`text-white ${isVisible ? 'fade-in' : ''}`}>
+                  <h1 className="font-playfair text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
+                    Unlock Your
+                    <span className="block text-purple-200">Hair's Potential</span>
+                  </h1>
+                  <p className="text-base sm:text-lg lg:text-xl mb-8 text-purple-100 leading-relaxed">
+                    Experience luxury hair care with our expert stylists. From classic cuts to bold transformations, we create looks that reflect your unique style.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button className="bg-white text-purple-600 px-7 py-3 sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-purple-50 transition-all hover-lift">
+                      Book Consultation
+                    </button>
+                    <button className="border-2 border-white text-white px-7 py-3 sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-all">
+                      View Portfolio
+                    </button>
+                  </div>
+                </div>
+                <div className={`${isVisible ? 'slide-up' : ''}`}>
+                  <div className="relative max-w-xl mx-auto lg:max-w-none">
+                    <img
+                      src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                      alt="Hair styling"
+                      className="rounded-3xl shadow-2xl w-full h-auto"
+                    />
+                    <div className="absolute inset-0 rounded-3xl shimmer pointer-events-none"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Services Section */}
+          <section id="services" className="py-16 sm:py-20 bg-white">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-10 sm:mb-16">
+                <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">
+                  Our Premium Services
+                </h2>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
+                  Discover our range of professional hair services designed to enhance your natural beauty
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                {services.map((service) => (
+                  <div
+                    key={service.id}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift cursor-pointer"
+                    onMouseEnter={() => setActiveService(service.id)}
+                    onMouseLeave={() => setActiveService(null)}
+                  >
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-56 sm:h-64 object-cover transition-transform duration-300 hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4 text-white">
+                        <div className="text-xl sm:text-2xl font-bold">{service.price}</div>
+                        <div className="text-xs sm:text-sm opacity-90">{service.duration}</div>
+                      </div>
+                    </div>
+                    <div className="p-5 sm:p-6">
+                      <h3 className="font-playfair text-lg sm:text-xl font-bold text-gray-800 mb-2">
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                        {service.description}
+                      </p>
+                      <button className="w-full bg-purple-600 text-white py-3 rounded-full font-medium hover:bg-purple-700 transition-colors">
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Gallery Section */}
+          <section id="gallery" className="py-16 sm:py-20 bg-gray-100">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-10 sm:mb-16">
+                <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">
+                  Hair Transformations
+                </h2>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600">
+                  See the amazing transformations our talented stylists have created
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {[
+                  "https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                  "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                  "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                  "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                  "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                  "https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ].map((image, index) => (
+                  <div key={index} className="relative group overflow-hidden rounded-2xl">
+                    <img
+                      src={image}
+                      alt={`Hair transformation ${index + 1}`}
+                      className="w-full h-56 sm:h-72 lg:h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Testimonials Section */}
+          <section className="py-16 sm:py-20 bg-white">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-10 sm:mb-16">
+                <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">
+                  Client Love
+                </h2>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600">
+                  Hear what our satisfied clients have to say
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+                {testimonials.map((t, index) => (
+                  <div key={index} className="bg-gray-50 rounded-2xl p-6 sm:p-8 hover-lift">
+                    <div className="flex items-center mb-5 sm:mb-6">
+                      <img
+                        src={t.image}
+                        alt={t.name}
+                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover mr-4"
+                      />
+                      <div>
+                        <h4 className="font-semibold text-gray-800">{t.name}</h4>
+                        <div className="flex text-yellow-400 text-base">
+                          {[...Array(t.rating)].map((_, i) => <span key={i}>★</span>)}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 italic text-sm sm:text-base">"{t.text}"</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Contact Section */}
+          <section id="contact" className="py-16 sm:py-20 gradient-bg text-white">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <div>
+                  <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
+                    Book Your Appointment
+                  </h2>
+                  <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 text-purple-100">
+                    Ready for a hair transformation? Contact us today to schedule your consultation.
+                  </p>
+
+                  <div className="space-y-5 sm:space-y-6">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">📍</div>
+                      <div>
+                        <h4 className="font-semibold">Location</h4>
+                        <p className="text-purple-100">123 Beauty Boulevard, Style City, SC 12345</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">📞</div>
+                      <div>
+                        <h4 className="font-semibold">Phone</h4>
+                        <p className="text-purple-100">(555) 123-4567</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">🕒</div>
+                      <div>
+                        <h4 className="font-semibold">Hours</h4>
+                        <p className="text-purple-100">Mon-Sat: 9AM-7PM, Sun: 10AM-5PM</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass-effect rounded-2xl p-6 sm:p-8">
+                  <form className="space-y-5 sm:space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                      <input type="text" placeholder="Your Name"
+                        className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/70 focus:outline-none focus:border-white/50"/>
+                      <input type="email" placeholder="Email Address"
+                        className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/70 focus:outline-none focus:border-white/50"/>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                      <input type="tel" placeholder="Phone Number"
+                        className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/70 focus:outline-none focus:border-white/50"/>
+                      <select className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-white/50">
+                        <option value="" className="text-gray-800">Select Service</option>
+                        <option value="cut" className="text-gray-800">Cut & Style</option>
+                        <option value="color" className="text-gray-800">Color Service</option>
+                        <option value="treatment" className="text-gray-800">Hair Treatment</option>
+                        <option value="bridal" className="text-gray-800">Bridal Package</option>
+                      </select>
+                    </div>
+                    <textarea rows="4" placeholder="Tell us about your hair goals..."
+                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/70 focus:outline-none focus:border-white/50"></textarea>
+                    <button type="submit" className="w-full bg-white text-purple-600 py-4 rounded-lg font-semibold hover:bg-purple-50 transition-colors">
+                      Book Appointment
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-gray-900 text-white py-12">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                  <h3 className="font-playfair text-2xl font-bold mb-4">Luxe Hair Studio</h3>
+                  <p className="text-gray-400 mb-4">Your premier destination for luxury hair care and styling.</p>
+                  <div className="flex space-x-4">
+                    <a href="#" className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700 transition-colors">f</a>
+                    <a href="#" className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700 transition-colors">📷</a>
+                    <a href="#" className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700 transition-colors">🐦</a>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg mb-4">Services</h4>
+                  <ul className="space-y-2 text-gray-400">
+                    <li><a href="#" className="hover:text-white transition-colors">Hair Cuts</a></li>
+                    <li><a href="#" className="hover:text-white transition-colors">Color Services</a></li>
+                    <li><a href="#" className="hover:text-white transition-colors">Hair Treatments</a></li>
+                    <li><a href="#" className="hover:text-white transition-colors">Bridal Services</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
+                  <ul className="space-y-2 text-gray-400">
+                    <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="#" className="hover:text-white transition-colors">Our Team</a></li>
+                    <li><a href="#" className="hover:text-white transition-colors">Gallery</a></li>
+                    <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg mb-4">Newsletter</h4>
+                  <p className="text-gray-400 mb-4">Stay updated with our latest offers and tips.</p>
+                  <div className="flex">
+                    <input type="email" placeholder="Your email"
+                      className="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-purple-600"/>
+                    <button className="px-6 py-2 bg-purple-600 rounded-r-lg hover:bg-purple-700 transition-colors">Subscribe</button>
+                  </div>
+                </div>
+              </div>
+              <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Luxe Hair Studio. All rights reserved.</p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<HairSalonWebsite />);
+  </script>
+</body>
+</html>
